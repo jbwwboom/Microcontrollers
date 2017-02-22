@@ -1,18 +1,3 @@
-/* ---------------------------------------------------------------------------
-** This software is in the public domain, furnished "as is", without technical
-** support, and with no warranty, express or implied, as to its usefulness for
-** any purpose.
-**
-** knipper.c
-**
-** Beschrijving:	Toggle even en oneven leds PORTD  
-** Target:			AVR mcu
-** Build:			avr-gcc -std=c99 -Wall -O3 -mmcu=atmega128 -D F_CPU=8000000UL -c knipper.c
-**					avr-gcc -g -mmcu=atmega128 -o knipper.elf knipper.o
-**					avr-objcopy -O ihex knipper.elf knipper.hex 
-**					or type 'make'
-** Author: 			dkroeske@gmail.com
-** -------------------------------------------------------------------------*/
 
 
 #include <avr/io.h>
@@ -131,9 +116,6 @@
  }
 
 
- void oscilloscoop(){
-		
- }
 
 int main( void )
 /* 
