@@ -1,8 +1,38 @@
+/* ---------------------------------------------------------------------------
+** This software is in the public domain, furnished "as is", without technical
+** support, and with no warranty, express or implied, as to its usefulness for
+** any purpose.
+**
+** knipper.c
+**
+** Beschrijving:	Toggle even en oneven leds PORTD  
+** Target:			AVR mcu
+** Build:			avr-gcc -std=c99 -Wall -O3 -mmcu=atmega128 -D F_CPU=8000000UL -c knipper.c
+**					avr-gcc -g -mmcu=atmega128 -o knipper.elf knipper.o
+**					avr-objcopy -O ihex knipper.elf knipper.hex 
+**					or type 'make'
+** Author: 			dkroeske@gmail.com
+** -------------------------------------------------------------------------*/
 
-
+#define F_CPU 8000000
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
+#include "Track4.c";
 
+
+
+void lcd_command ( unsigned char dat )
+{
+	PORTC = dat & 0xF0;
+	PORTC = PORTC | 0x08;
+	_delay_ms(1);
+	PORTC = 0x04;
+	PORTC = (dat & 0x0F) << 4;
+	PORTC = PORTC | 0x08;
+	_delay_ms(1);
+	PORTC = 0x00;
+}
 
  void init(void)
  {
@@ -34,18 +64,6 @@
 		 }
 	 }
 	 }
- }
-
- void lcd_command ( unsigned char dat )
- {
-	 PORTC = dat & 0xF0;
-	 PORTC = PORTC | 0x08;
-	 _delay_ms(1);
-	 PORTC = 0x04;
-	 PORTC = (dat & 0x0F) << 4;
-	 PORTC = PORTC | 0x08;
-	 _delay_ms(1);
-	 PORTC = 0x00;
  }
 
  void lcd_writeChar( unsigned char dat )
@@ -109,12 +127,11 @@
  void init_timer()
  {
 	 
-	 sei ();
+	 sei ();	
 	 
 	 TCNT1 = 100000;
 	 TCNT2 = 100000;
  }
-
 
 
 int main( void )
@@ -126,9 +143,12 @@ notes:			Looping forever, flipping bits on PORTD
 Version :    	DMK, Initial code
 *******************************************************************/
 {
-		while(1){
+	    init();
+		_delay_ms(10);
+		Track4B3();
+		/*while(1){
 				char write = '0' count;
 				lcd_writeChar(write);
 				_delay_ms(1);
-		}
+		}*/
 }
